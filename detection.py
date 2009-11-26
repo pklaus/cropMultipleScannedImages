@@ -36,7 +36,6 @@ def sobel(img):
 # Canny edge detection using opencv
 # http://en.wikipedia.org/wiki/Edge_detection#Canny_edge_detection
 from opencv.cv import *
-from opencv.highgui import *
 def DoCanny(img, lowThresh, highThresh, aperature):
     """ from chapter 2 of the book "Learning OpenCV: Computer Vision with the OpenCV Library", ISBN-10: 0596516134
         also found on http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
@@ -49,6 +48,15 @@ def DoCanny(img, lowThresh, highThresh, aperature):
     out = cvCreateImage(cvSize(cvGetSize(gray).width, cvGetSize(gray).height), IPL_DEPTH_8U, 1)
     cvCanny(gray, out, lowThresh, highThresh, aperature)
     return out
+
+
+# corner detection using opencv
+from opencv.cv import *
+def DoCorner(image):
+    """ from http://opencv.willowgarage.com/documentation/python/image_processing.html#gradients-edges-and-corners """
+    # yet to implement!
+    
+    return image
 
 
 def getPictureCoordinates(image):
