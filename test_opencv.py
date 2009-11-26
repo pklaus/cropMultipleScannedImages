@@ -7,18 +7,18 @@
 from opencv.highgui import *
 import detection
 
-if __name__ == '__main__':
 
+def testOpenCVedgeDetection():
+    """ from http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
+    
     cvNamedWindow("Example5-Canny", CV_WINDOW_AUTOSIZE)
-
     cvNamedWindow("Example5", CV_WINDOW_AUTOSIZE)
     g_capture = cvCreateFileCapture('sample.avi')
     frames = long(cvGetCaptureProperty(g_capture, CV_CAP_PROP_FRAME_COUNT))
-      
+    
     loop = True
     
     while(loop):
-
         frame = cvQueryFrame(g_capture)
         if (frame == None):
             break
@@ -30,7 +30,12 @@ if __name__ == '__main__':
         if (char != -1):
             if (ord(char) == 27):
                 loop = False
-
+    
+    
     cvDestroyWindow("Example5")
     cvDestroyWindow("Example5-Canny")
+
+
+if __name__ == '__main__':
+    testOpenCVedgeDetection()
 

@@ -33,10 +33,12 @@ def sobel(img):
     return out_image
 
 
-# using opencv:
+# Canny edge detection using opencv
+# http://en.wikipedia.org/wiki/Edge_detection#Canny_edge_detection
 from opencv.cv import *
 from opencv.highgui import *
 def DoCanny(img, lowThresh, highThresh, aperature):
+    """ from http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
     gray = cvCreateImage(cvSize(cvGetSize(img).width, cvGetSize(img).height), IPL_DEPTH_8U, 1)
     cvCvtColor(img,gray,CV_BGR2GRAY)
     
