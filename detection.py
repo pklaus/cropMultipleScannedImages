@@ -55,6 +55,7 @@ from opencv.cv import *
 def DoCorner(image):
     """ from http://opencv.willowgarage.com/documentation/python/image_processing.html#gradients-edges-and-corners """
     # yet to implement!
+    # nice basic examples for python on http://opencv.willowgarage.com/wiki/PythonInterface
     
     return image
 
