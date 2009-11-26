@@ -6,6 +6,7 @@
 import Image # needs PIL: sudo aptitude install python-imaging
 import math
 
+
 def sobel(img):
     """ function from http://bitecode.co.uk/2008/07/edge-detection-in-python/ """
     if img.mode != "RGB":
@@ -31,3 +32,17 @@ def sobel(img):
             outdata[row, col] = (newpixel, newpixel, newpixel)
     return out_image
 
+
+# using opencv:
+from opencv.cv import *
+from opencv.highgui import *
+def DoCanny(img, lowThresh, highThresh, aperature):
+    gray = cvCreateImage(cvSize(cvGetSize(img).width, cvGetSize(img).height), IPL_DEPTH_8U, 1)
+    cvCvtColor(img,gray,CV_BGR2GRAY)
+    
+    if (gray.nChannels != 1):
+        return False
+    
+    out = cvCreateImage(cvSize(cvGetSize(gray).width, cvGetSize(gray).height), IPL_DEPTH_8U, 1)
+    cvCanny(gray, out, lowThresh, highThresh, aperature)
+    return out
