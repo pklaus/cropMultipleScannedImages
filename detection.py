@@ -38,7 +38,8 @@ def sobel(img):
 from opencv.cv import *
 from opencv.highgui import *
 def DoCanny(img, lowThresh, highThresh, aperature):
-    """ from http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
+    """ from chapter 2 of the book "Learning OpenCV: Computer Vision with the OpenCV Library", ISBN-10: 0596516134
+        also found on http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
     gray = cvCreateImage(cvSize(cvGetSize(img).width, cvGetSize(img).height), IPL_DEPTH_8U, 1)
     cvCvtColor(img,gray,CV_BGR2GRAY)
     

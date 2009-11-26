@@ -9,7 +9,8 @@ import detection
 
 
 def testOpenCVedgeDetection():
-    """ from http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
+    """ from chapter 2 of the book "Learning OpenCV: Computer Vision with the OpenCV Library", ISBN-10: 0596516134
+        also found on http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
     
     cvNamedWindow("Example5-Canny", CV_WINDOW_AUTOSIZE)
     cvNamedWindow("Example5", CV_WINDOW_AUTOSIZE)
