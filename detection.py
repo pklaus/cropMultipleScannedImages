@@ -49,3 +49,16 @@ def DoCanny(img, lowThresh, highThresh, aperature):
     out = cvCreateImage(cvSize(cvGetSize(gray).width, cvGetSize(gray).height), IPL_DEPTH_8U, 1)
     cvCanny(gray, out, lowThresh, highThresh, aperature)
     return out
+
+
+def getPictureCoordinates(image):
+    pictureCoordinates = []
+    for i in range(3):
+        x_0=100
+        y_0=(200*i)+50
+        x_1=300
+        y_1=(200*i)+150
+        box = (x_0,y_0,x_1,y_1)
+        pictureCoordinates.append(box)
+    return pictureCoordinates
+
