@@ -7,6 +7,7 @@
 from opencv.highgui import *
 import detection
 import Image # needs PIL: sudo aptitude install python-imaging
+import pdb
 
 def testFindLines():
     """ from chapter 2 of the book "Learning OpenCV: Computer Vision with the OpenCV Library", ISBN-10: 0596516134
@@ -18,11 +19,17 @@ def testFindLines():
     
     orig = cvLoadImage("photos_scanned_to_be_separated_small_brighter.png")
     cvShowImage("original", orig)
-    outCan = detection.findLines(orig)[1]
-    cvShowImage("processed", outCan)
+    lineScanResult = detection.findLines(orig)
+    cvShowImage("processed", lineScanResult[1])
+    #pdb.set_trace()
+    detection.guessPictureCoordinates(lineScanResult[0],(1000,1000))
     
-    char = cvWaitKey(0)
-    
+    loop = True
+    while(loop):
+        char = cvWaitKey(0)
+        if (char != -1):
+            if (ord(char) == 27):
+                loop = False
     
     g_capture = cvCreateFileCapture('sample.avi')
     frames = long(cvGetCaptureProperty(g_capture, CV_CAP_PROP_FRAME_COUNT))

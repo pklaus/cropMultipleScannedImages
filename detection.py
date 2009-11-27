@@ -74,6 +74,71 @@ def getPictureCoordinates(image):
         box = (x_0,y_0,x_1,y_1)
         pictureCoordinates.append(box)
     return pictureCoordinates
+    
+
+
+
+class Vector( object ):
+    def __init__(self, data):
+        self.data = data
+    def __repr__(self):
+        return repr(self.data)
+    def __add__(self, other):
+        data = []
+        for j in range(len(self.data)):
+          data.append(self.data[j] + other.data[j])
+        return Vector(data)
+    def __sub__(self, other):
+        data = []
+        for j in range(len(self.data)):
+          data.append(self.data[j] - other.data[j])
+        return Vector(data)
+    def __mul__(self, other):
+        scalarProduct = 0
+        for j in range(len(self.data)):
+          scalarProduct += self.data[j] * other.data[j]
+        return scalarProduct
+    def length(self):
+        squaredSum=0
+        for j in range(len(self.data)):
+            squaredSum += self.data[j]**2
+        return math.sqrt(squaredSum)
+
+
+def guessPictureCoordinates(lines, imageDimensions, maxCheck=10):
+    """ may replace getPictureCoordinates """
+    lines.sort()
+    lines.reverse()
+    
+    counter = 0
+    limit = maxCheck if maxCheck<len(lines) else len(lines)
+    importantLines=[]
+    pictureCoordinates = []
+    alreadyMatched=[]
+    for line in lines:
+        #pdb.set_trace()
+        # check scalar product with other lines:
+        for j in range(limit):
+            if [counter,j] in alreadyMatched or [j,counter] in alreadyMatched:
+                continue
+            v1=lines[j][1]-lines[j][2]
+            v2=line[1]-line[2]
+            cosphi=float(v1*v2)/(float(v1.length())*float(v2.length()))-.000000000000001
+            #print cosphi,
+            angle = math.acos(cosphi)
+            #print angle
+            if abs(angle-math.acos(0))<0.05:
+                alreadyMatched.append([counter,j])
+                importantLines.append([line,lines[j]])
+                #if line not in importantLines: importantLines.append(line)
+                #if lines[j] not in importantLines: importantLines.append(lines[j])
+        box = (50,50,100,100)
+        pictureCoordinates.append(box)
+        if counter==limit-1: break
+        counter+=1
+    print importantLines
+    print 
+    return pictureCoordinates
 
 
 
@@ -85,7 +150,7 @@ def findLines(image):
 
     # inspiration: Neural Units with Higher-Order Synaptic Operations for Robotic Image Processing Applications
     # downloaded here: http://www.springerlink.com.proxy.ub.uni-frankfurt.de/content/16573jn623915320/?p=75fd611d62cd4eb483977d1de039e3b4&pi=1
-    # using edge detection and Hough transform to process the edge detection results
+    # using edge detection and Hough transform to process the edge detection results http://danthorpe.me.uk/blog/2005/02/24/Implementing_the_Hough_Transform
     
     gray = cvCreateImage(cvSize(cvGetSize(image).width, cvGetSize(image).height), IPL_DEPTH_8U, 1)
     cvCvtColor(image,gray,CV_BGR2GRAY)
@@ -104,9 +169,15 @@ def findLines(image):
     # parameters of cvHoughLines2:
     #                    image; line_storage;     method;       rho; theta; threshold; param1; param2
     lines = cvHoughLines2( dst, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, 80, 30, 10 )
+    ## algorithm:
+    l = []
     for line in lines:
+        length = math.sqrt((line[0].x-line[1].x)**2+(line[0].y-line[1].y)**2)
+        l.append([length, Vector([line[0].x, line[0].y]), Vector([line[1].x, line[1].y])])
         cvLine( color_dst, line[0], line[1], CV_RGB(255,0,0), 3, 8 )
-    return [storage,color_dst]
+    l.sort()
+    l.reverse()
+    return [l,color_dst]
 
 
 
