@@ -12,8 +12,8 @@ def testOpenCVedgeDetection():
     """ from chapter 2 of the book "Learning OpenCV: Computer Vision with the OpenCV Library", ISBN-10: 0596516134
         also found on http://www.beechtreetech.com/dev/opencv-exercises-in-python.aspx -> example 2.6 """
     
-    cvNamedWindow("Example5-Canny", CV_WINDOW_AUTOSIZE)
-    cvNamedWindow("Example5", CV_WINDOW_AUTOSIZE)
+    cvNamedWindow("Canny", CV_WINDOW_AUTOSIZE)
+    cvNamedWindow("original", CV_WINDOW_AUTOSIZE)
     g_capture = cvCreateFileCapture('sample.avi')
     frames = long(cvGetCaptureProperty(g_capture, CV_CAP_PROP_FRAME_COUNT))
     
@@ -23,9 +23,9 @@ def testOpenCVedgeDetection():
         frame = cvQueryFrame(g_capture)
         if (frame == None):
             break
-        cvShowImage("Example5", frame)
+        cvShowImage("original", frame)
         outCan = detection.DoCanny(frame, 70.0, 140.0, 3)
-        cvShowImage("Example5-Canny", outCan)
+        cvShowImage("Canny", outCan)
         
         char = cvWaitKey(0)
         if (char != -1):
@@ -33,8 +33,8 @@ def testOpenCVedgeDetection():
                 loop = False
     
     
-    cvDestroyWindow("Example5")
-    cvDestroyWindow("Example5-Canny")
+    cvDestroyWindow("original")
+    cvDestroyWindow("Canny")
 
 
 if __name__ == '__main__':
