@@ -61,6 +61,10 @@ def DoCorner(image):
 
 
 def getPictureCoordinates(image):
+    
+    # proposal for an algorithm: http://www.delphigroups.info/2/5/315424.html -> Mattias Andersson, 2005-04-30 03:32:39 AM
+    
+    
     pictureCoordinates = []
     for i in range(3):
         x_0=100
@@ -70,4 +74,39 @@ def getPictureCoordinates(image):
         box = (x_0,y_0,x_1,y_1)
         pictureCoordinates.append(box)
     return pictureCoordinates
+
+
+
+from opencv.cv import *
+import math
+import pdb
+
+def findLines(image):
+
+    # inspiration: Neural Units with Higher-Order Synaptic Operations for Robotic Image Processing Applications
+    # downloaded here: http://www.springerlink.com.proxy.ub.uni-frankfurt.de/content/16573jn623915320/?p=75fd611d62cd4eb483977d1de039e3b4&pi=1
+    # using edge detection and Hough transform to process the edge detection results
+    
+    gray = cvCreateImage(cvSize(cvGetSize(image).width, cvGetSize(image).height), IPL_DEPTH_8U, 1)
+    cvCvtColor(image,gray,CV_BGR2GRAY)
+    if (gray.nChannels != 1):
+        return False
+    
+    dst = cvCreateImage( cvGetSize(image), 8, 1 )
+    color_dst = cvCreateImage( cvGetSize(image), 8, 3 )
+    storage = cvCreateMemStorage(0)
+    lines = 0
+    i=0
+    cvCanny( gray, dst, 50, 200, 3 )
+    cvCvtColor( dst, color_dst, CV_GRAY2BGR )
+    #pdb.set_trace()
+    # Hough transform using openCV: http://opencv.willowgarage.com/documentation/python/image_processing.html#HoughLines2
+    # parameters of cvHoughLines2:
+    #                    image; line_storage;     method;       rho; theta; threshold; param1; param2
+    lines = cvHoughLines2( dst, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, 80, 30, 10 )
+    for line in lines:
+        cvLine( color_dst, line[0], line[1], CV_RGB(255,0,0), 3, 8 )
+    return [storage,color_dst]
+
+
 
