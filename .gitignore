@@ -1,0 +1,7 @@
+# Image and video files:
+*.jpg
+*.JPG
+*.avi
+
+# Python byte code files:
+*.pyc
